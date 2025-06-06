@@ -19,6 +19,5 @@ s = 13
    # python
  #  number = 5
   # print("Result: " + numb)
-  pyton
   number = 5
   print("result: number + number")
