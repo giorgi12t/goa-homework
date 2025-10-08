@@ -1,0 +1,80 @@
+<!--ერთ წინადადებაში ახსენი რას აკეთებს display: flex-->
+<!--displey; flex ერთ ხაზში ათავსებს სიტყვებს-->
+<!--შექმენი <div> და მის CSS-ში მიუწერე display: flex-->
+    <!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8" />
+  <title>Flex </title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="item">ბლოკი 1</div>
+    <div class="item">ბლოკი 2</div>
+    <div class="item">ბლოკი 3</div>
+  </div>
+</body>
+</html>
+<!--flex კონტეინერში ჩასვი ორი <p> და ნახე როგორ ეწყობა გვერდიგვერდ დაამატე justify-content: center და გახადა ტექსტები ცენტრში-->
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8" />
+  <title>Flex ორი <p></title>
+  <style>
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      height: 150px;
+      border: 2px solid #444;
+    }
+
+    p {
+      background: #ddd;
+      padding: 10px 20px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p>პირველი ტექსტი</p>
+    <p>მეორე ტექსტი</p>
+  </div>
+</body>
+</html>
+<!--დაამატე gap: 5px რომ ელემენტებს შორის იყოს დაშორება-->
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8" />
+  <title>Flex ორი <p></title>
+  <style>
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      height: 150px;
+      border: 2px solid #444;
+    }
+
+    p {
+      background: #ddd;
+      padding: 10px 20px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p>პირველი ტექსტი</p>
+    <p>მეორე ტექსტი</p>
+  </div>
+</body>
+</html>

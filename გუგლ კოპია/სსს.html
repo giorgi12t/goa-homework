@@ -1,0 +1,88 @@
+<html lang="ka">
+<circle cx="11" cy="11" r="6" stroke="#5f6368" stroke-width="2"/>
+</svg>
+</button>
+<link rel="stylesheet" href="style.css">
+
+
+<input id="q" name="q" type="search" placeholder="ძიება ან შეიყვანე URL" autocomplete="off" aria-label="Search"/>
+
+
+<button type="button" class="icon" title="Voice search" aria-label="Voice search" onclick="alert('Voice search (mock)')">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+<path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3z" stroke="#5f6368" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M19 11v1a7 7 0 0 1-14 0v-1" stroke="#5f6368" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</button>
+</form>
+
+
+<div class="controls" role="group" aria-label="Search buttons">
+<button class="btn" onclick="doSearch(false)">Search</button>
+<button class="btn primary" onclick="doSearch(true)">I'm Feeling Lucky</button>
+</div>
+
+
+<p class="muted">მოკლე აღწერა — ეს ფეიკ გვერდია ნებისმიერ რეალურ ძებნა სისტემასთან კავშირში ყოფნის გარეშე.</p>
+</div>
+</main>
+
+
+<footer>
+<div class="links">
+<span>Georgia</span>
+</div>
+<div class="links">
+<a href="#">Advertising</a>
+<a href="#">Business</a>
+<a href="#">About</a>
+<a href="#">Privacy</a>
+<a href="#">Terms</a>
+</div>
+</footer>
+
+
+<script>
+// Simple mock search function — opens a new tab with a real Google search for demo purposes.
+// IMPORTANT: This is just a UI demo. If you want to keep everything local, change the behavior below.
+function doSearch(lucky){
+const q = document.getElementById('q').value.trim();
+if(!q){
+// if empty, visually nudge and return
+const input = document.getElementById('q');
+input.focus();
+input.style.transition='box-shadow .18s';
+input.style.boxShadow='0 0 0 3px rgba(26,115,232,.12)';
+setTimeout(()=>input.style.boxShadow='',450);
+return;
+}
+
+
+if(lucky){
+// open first search result via Google 'I'm feeling lucky' param
+const url = 'https://www.google.com/search?q='+encodeURIComponent(q)+'&btnI=I';
+window.open(url,'_blank');
+} else {
+const url = 'https://www.google.com/search?q='+encodeURIComponent(q);
+window.open(url,'_blank');
+}
+}
+
+
+// Submit on Enter
+document.getElementById('searchForm').addEventListener('submit', function(e){
+e.preventDefault();
+doSearch(false);
+});
+
+
+// allow Enter key when input is focused
+document.getElementById('q').addEventListener('keydown', function(e){
+if(e.key === 'Enter'){
+e.preventDefault();
+doSearch(false);
+}
+});
+</script>
+</body>
+</html>
