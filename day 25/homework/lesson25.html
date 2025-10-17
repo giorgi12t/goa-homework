@@ -1,0 +1,89 @@
+<!--ახსენი მოკლედ განსხვავება: როდის ვიყენებთ id-ს და როდის class-ს?-->
+<!--id ვიყენებთ ერთ კონკრეტულ ელემენტზე, რომელიც გვერდზე მხოლოდ ერთხელ არსებობს class ვიყენებთ რამდენიმე ელემენტზე, როცა გვსურს ერთნაირი სტილი ან ქცევა ჰქონდეთ-->
+<!--შექმენი <h1> ელემენტი და მიანიჭე id="headline", შემდეგ CSS-ში მიანიჭე მას წითელი ფერი-->
+    <!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #headline {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="headline">ეს არის სათაური</h1>
+
+</body>
+</html>
+<!--შექმენი ორი <p> ელემენტი და ორივეს მიანიჭე class="info", CSS-ში ამ class-ს მიანიჭე ლურჯი ფერი-->
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .info {
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+
+  <p class="info">ეს არის პირველი პარა.</p>
+  <p class="info">ეს არის მეორე პარა.</p>
+
+</body>
+</html>
+<!--დაამატე ღილაკი <button> class="main-btn", CSS-ში მისცე ფონი შავი და ტექსტი თეთრი-->
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .main-btn {
+      background-color: black;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="main-btn">დაკლიკე აქ</button>
+
+</body>
+</html>
+<!-- შექმენი <div id="box">, CSS-ში მისცე ზომები: სიგანე 200px, სიმაღლე 100px და ფონი ღია მწვანე-->
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #box {
+      width: 200px;
+      height: 100px;
+      background-color: lightgreen;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="box"></div>
+
+</body>
+</html>
+<!-- დაამატე ერთი class="important" და გამოიყენე ის სხვადასხვა თეგებზე (მაგ: <h2>, <p>) — CSS-ში მისცე ტექსტს ფერი და ფონიც -->
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .important {
+      color: white;         
+      background-color: red;    
+      padding: 10px;          
+    }
+  </style>
+</head>
+<body>
+
+  <h2 class="important">მნიშვნელოვანი სათაური</h2>
+  <p class="important">ეს არის მნიშვნელოვანი ინფორმაცია.</p>
+
+</body>
+</html>
