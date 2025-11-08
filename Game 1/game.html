@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<title>8-bit Tank Battle</title>
+<style>
+body{margin:0;background:#111;color:#fff;font-family:sans-serif;overflow:hidden;}
+canvas{background:#222;display:block;margin:0 auto;image-rendering:pixelated;}
+#menu,#shop,#resultScreen{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;background:#000d;}
+button{padding:12px 25px;margin:5px;font-size:18px;cursor:pointer;background:#333;color:#0f0;border:1px solid #0f0;}
+button:disabled{background:#555;color:#888;cursor:not-allowed;}
+</style>
+</head>
+<body>
+<div id="menu">
+<h1>8-bit Tank Battle</h1>
+<button id="startBtn">ბრძოლა</button>
+<button id="shopBtn">ტანკის გაძლიერება</button>
+<p>მონეტა: <span id="coins">0</span></p>
+</div>
+<div id="shop" style="display:none;">
+<h2>ტანკის გაძლიერება</h2>
+<button id="buyMedium">შეძენა: საშუალო (60)</button>
+<button id="buyBig">შეძენა: დიდი (130)</button>
+<button id="closeShop">უკან</button>
+<p>მონეტა: <span id="coinsShop">0</span></p>
+</div>
+<div id="resultScreen" style="display:none;">
+<h1 id="resultText"></h1>
+<button id="backMenu">მენიუში დაბრუნება</button>
+</div>
+<canvas id="game" width="1200" height="800" style="display:none;"></canvas>
+<script>
+const canvas=document.getElementById('game');
+const ctx=canvas.getContext('2d');
+const menu=document.getElementById('menu');
+const shop=document.getElementById('shop');
+const resultScreen=document.getElementById('resultScreen');
+const resultText=document.getElementById('resultText');
+const coinsDisplay=document.getElementById('coins');
+const coinsShopDisplay=document.getElementById('coinsShop');
+const startBtn=document.getElementById('startBtn');
+const shopBtn=document.getElementById('shopBtn');
+const buyMedium=document.getElementById('buyMedium');
+const buyBig=document.getElementById('buyBig');
+const closeShop=document.getElementById('closeShop');
+const backMenu=document.getElementById('backMenu');
+
+let coins=0,playerTank='small',waveIndex=0;
+let bullets=[],enemyBullets=[],enemies=[],mapObjects=[],keys={},mouse={x:0,y:0,down:false};
+
+const tankStats={small:{hp:100,dmg:20,price:0},medium:{hp:100,dmg:40,price:60},big:{hp:150,dmg:70,price:130}};
+const waves=[{type:'small',count:5,hp:50,dmg:20},{type:'medium',count:5,hp:100,dmg:40},{type:'big',count:3,hp:150,dmg:70}];
+let tank={x:600,y:400,angHull:0,angTurret:0,speed:2,lastShot:0,hp:tankStats[playerTank].hp};
+
+// generate map
+for(let i=0;i<50;i++){
+  let type=Math.random()<0.4?'bush':(Math.random()<0.7?'tree':'wall');
+  mapObjects.push({x:Math.random()*1200,y:Math.random()*800,type});
+}
+
+// Controls
+addEventListener('keydown',e=>keys[e.key]=true);
+addEventListener('keyup',e=>keys[e.key]=false);
+addEventListener('mousemove',e=>mouse={x:e.offsetX,y:e.offsetY});
+addEventListener('mousedown',()=>mouse.down=true);
+addEventListener('mouseup',()=>mouse.down=false);
+
+// Shop
+function updateShop(){
+ coinsShopDisplay.innerText=coins;
+ buyMedium.disabled=coins<60||playerTank!='small';
+ buyBig.disabled=coins<130||playerTank=='big';
+}
+buyMedium.onclick=()=>{if(coins>=60){coins-=60;playerTank='medium';tank.hp=tankStats[playerTank].hp;updateShop();coinsDisplay.innerText=coins;}};
+buyBig.onclick=()=>{if(coins>=130){coins-=130;playerTank='big';tank.hp=tankStats[playerTank].hp;updateShop();coinsDisplay.innerText=coins;}};
+closeShop.onclick=()=>{shop.style.display='none';menu.style.display='flex';};
+startBtn.onclick=()=>{menu.style.display='none';canvas.style.display='block';startBattle();};
+shopBtn.onclick=()=>{menu.style.display='none';shop.style.display='flex';updateShop();};
+backMenu.onclick=()=>{resultScreen.style.display='none';menu.style.display='flex';};
+
+function drawTank(x,y,hullAng,turAng,color){
+ ctx.save();ctx.translate(x,y);ctx.rotate(hullAng);
+ ctx.fillStyle=color;ctx.fillRect(-16,-20,32,40);
+ ctx.restore();
+ ctx.save();ctx.translate(x,y);ctx.rotate(turAng);
+ ctx.fillStyle=color;ctx.fillRect(-10,-10,20,20);
+ ctx.fillStyle='#8f8';ctx.fillRect(0,-3,24,6);
+ ctx.restore();
+}
+
+function collideWall(x,y){return mapObjects.some(o=>o.type=='wall'&&Math.hypot(o.x-x,o.y-y)<20);}
+function shoot(obj,isEnemy){if(Date.now()-obj.lastShot<5000)return;obj.lastShot=Date.now();let arr=isEnemy?enemyBullets:bullets;arr.push({x:obj.x,y:obj.y,ang:obj.angTurret,power:tankStats[isEnemy?obj.type:playerTank].dmg});}
+
+function spawnWave(){let wave=waves[waveIndex];enemies=[];for(let i=0;i<wave.count;i++){let side=Math.random()<0.5?-20:1220;enemies.push({x:side,y:Math.random()*800,angHull:0,angTurret:0,type:wave.type,hp:wave.hp,lastShot:Date.now()+Math.random()*3000,speed:1});}}
+function startBattle(){waveIndex=0;tank.hp=tankStats[playerTank].hp;spawnWave();requestAnimationFrame(loop);}
+function endBattle(victory){canvas.style.display='none';resultScreen.style.display='flex';resultText.innerText=victory?'VICTORY! +50 coins':'DEFEAT!';if(victory)coins+=50;coinsDisplay.innerText=coins;}
+
+function loop(){
+ // Player movement
+ let dx=0,dy=0;if(keys['w'])dy-=tank.speed;if(keys['s'])dy+=tank.speed;if(keys['a'])dx-=tank.speed;if(keys['d'])dx+=tank.speed;
+ let dist=Math.hypot(dx,dy);
+ if(dist>0){dx=dx/dist*tank.speed;dy=dy/dist*tank.speed;let nx=tank.x+dx,ny=tank.y+dy;if(!collideWall(nx,ny)){tank.x=nx;tank.y=ny;}tank.angHull=Math.atan2(dy,dx);}
+ tank.angTurret=Math.atan2(mouse.y-tank.y,mouse.x-tank.x);
+ if(mouse.down)shoot(tank,false);
+ bullets.forEach(b=>{b.x+=Math.cos(b.ang)*4;b.y+=Math.sin(b.ang)*4;});
+ enemyBullets.forEach(b=>{b.x+=Math.cos(b.ang)*4;b.y+=Math.sin(b.ang)*4;});
+ enemies.forEach(e=>{
+ e.angTurret=Math.atan2(tank.y-e.y,tank.x-e.x);
+ e.angHull=e.angTurret;
+ let ex=e.x+Math.cos(e.angHull)*e.speed,ey=e.y+Math.sin(e.angHull)*e.speed;
+ if(!collideWall(ex,ey)){e.x=ex;e.y=ey;}
+ if(Date.now()-e.lastShot>5000&&Math.random()<0.02)shoot(e,true);
+ });
+ bullets.forEach((b,i)=>{enemies.forEach((e,j)=>{if(Math.hypot(b.x-e.x,b.y-e.y)<15){e.hp-=b.power;bullets.splice(i,1);if(e.hp<=0)enemies.splice(j,1);}});});
+ enemyBullets.forEach((b,i)=>{if(Math.hypot(b.x-tank.x,b.y-tank.y)<15){tank.hp-=b.power;enemyBullets.splice(i,1);if(tank.hp<=0)endBattle(false);}});
+ if(enemies.length==0){waveIndex++;if(waveIndex<waves.length)spawnWave();else endBattle(true);}
+ ctx.clearRect(0,0,1200,800);
+ mapObjects.forEach(o=>{ctx.fillStyle=o.type=='wall'?'#555':(o.type=='tree'?'#0a0':'#070');ctx.fillRect(o.x-10,o.y-10,20,20);});
+ drawTank(tank.x,tank.y,tank.angHull,tank.angTurret,'#0c0');
+ bullets.forEach(b=>ctx.fillRect(b.x-2,b.y-2,4,4));
+ enemyBullets.forEach(b=>ctx.fillRect(b.x-2,b.y-2,4,4));
+ enemies.forEach(e=>drawTank(e.x,e.y,e.angHull,e.angTurret,'#f00'));
+ ctx.fillStyle='#fff';ctx.fillText('HP: '+tank.hp,10,20);ctx.fillText('Coins: '+coins,10,40);
+ requestAnimationFrame(loop);
+}
+</script>
+</body>
+</html>
