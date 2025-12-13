@@ -1,0 +1,30 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 20px;
+}
+
+ol {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+img {
+    display: block;
+    max-width: 400px;
+    margin: 10px 0;
+}
+
+ol li ol {
+    margin-left: 20px;
+    color: darkred;
+}
+
+n3 {
+    font-style: italic;
+    color: gray;
+}
