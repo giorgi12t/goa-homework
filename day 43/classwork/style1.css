@@ -1,0 +1,25 @@
+body {
+    display: flex;
+    justify-content: left;
+    align-items: left; 
+    height: 100vh;
+}
+
+.ball {
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+    border-radius: 100%;
+    animation: growColor 2s infinite alternate;
+}
+
+@keyframes growColor {
+    from {
+        background-color: blue;
+        transform: scale(1);
+    }
+    to {
+        background-color: green;
+        transform: scale(2);
+    }
+}

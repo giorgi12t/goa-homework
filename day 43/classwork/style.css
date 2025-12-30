@@ -1,0 +1,29 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.box {
+    width: 150px;
+    height: 150px;
+    background-color: red;
+
+    animation-name: changeColor;
+    animation-duration: 5s;
+    animation-iteration-count: 5;
+}
+
+@keyframes changeColor {
+    from {
+        background-color: red;
+    }
+    to {
+        background-color: yellow;
+    }
+}
+
+
+
