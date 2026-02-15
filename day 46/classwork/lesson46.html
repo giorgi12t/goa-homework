@@ -1,0 +1,42 @@
+<!--0) მომხმარებელს შემოატანინეთ სამი რიცხვი, შემდეგ შექმენით ფერი ამ სამი რიცხვით და ეკრანის ფერი გახდეს ის
+1) შემქენით ღილაკი, რომლის დაჭერისას ისცვლება ტექსტის ფერი რანდომულად-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+    <button onclick="ChangeColor()">color</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+  <input type="number" id="r" placeholder="Red">
+  <input type="number" id="g" placeholder="Green">
+  <input type="number" id="b" placeholder="Blue">
+
+  <button onclick="changeColor()">OK</button>
+
+  <script>
+    function changeColor() {
+      let r = document.getElementById("r").value;
+      let g = document.getElementById("g").value;
+      let b = document.getElementById("b").value;
+
+      document.body.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+    }
+  </script>
+
+</body>
+</html>
