@@ -1,0 +1,15 @@
+body {
+    background-image: url("https://images.unsplash.com/photo-1517849845537-4d257902454a");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    color: white;
+    text-align: center;
+    font-size: 25px;
+}
+
+/* background-size: cover;
+background-size: contain;
+background-size: 200px 150px;
+background-size: 50%; */

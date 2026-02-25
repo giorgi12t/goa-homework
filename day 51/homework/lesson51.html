@@ -1,0 +1,34 @@
+<!-- 1) შექმენი constructor ფუნქცია Car, რომელიც იღებს brand პარამეტრს და ინახავს მას ობიექტში
+
+2) შექმენი constructor ფუნქცია Student, რომელიც იღებს name და age პარამეტრებს
+
+3) შექმენი ორი ახალი ობიექტი Student constructor-ის გამოყენებით
+
+4) დაამატე constructor-ში ახალი თვისება grade
+
+5) გამოიტანე შექმნილი ობიექტის ერთ-ერთი თვისება console.log-ში -->
+
+<script>
+let student1 = new Student("Giorgi", 13, "A");
+
+console.log(student1.name);
+</script>
+
+<script>
+function Student(name, age, grade) {
+    this.name = name;
+    this.age = age;
+    this.grade = grade;
+}
+</script>
+<script>
+let student11 = new Student("Giorgi", 13);
+let student21 = new Student("Niko", 13);
+</script>
+
+<script>
+function Car(brand) {
+    this.brand = brand;
+}
+</script>
+
